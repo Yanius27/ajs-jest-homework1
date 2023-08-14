@@ -1,3 +1,6 @@
 export default function fetchData(url) {
-  return { status: 'ok', url: [url], level: '99' };
+  if (url === 'https://server/user') {
+    throw new Error('Mock this!');
+  }
+  return {};
 }

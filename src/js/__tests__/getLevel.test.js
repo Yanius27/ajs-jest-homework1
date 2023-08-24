@@ -6,13 +6,15 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
-test('should call getLevel once', () => {
-  fetchData.mockReturnValue({ status: 'ok', url: 'https://server/user/326', level: '99' });
-  getLevel(326);
+test('should call getLevel once', async () => {
+  fetchData.mockResolvedValue({ status: 'ok', url: 'https://server/user/326', level: '99' });
+  const result = await getLevel(326);
   expect(fetchData).toBeCalledWith('https://server/user/326');
+  expect(result).toBe('Ваш текущий уровень: 99');
 });
 
-test('should check status', () => {
-  fetchData.mockReturnValue({ status: 'error' });
-  expect(getLevel()).toBe('Информация об уровне временно недоступна');
+test('should check status', async () => {
+  fetchData.mockResolvedValue({ status: 'error' });
+  const result = await getLevel();
+  expect(result).toBe('Информация об уровне временно недоступна');
 });
